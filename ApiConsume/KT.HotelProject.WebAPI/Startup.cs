@@ -1,3 +1,8 @@
+using KT.HotelProject.Business.Abstract;
+using KT.HotelProject.Business.Concrete;
+using KT.HotelProject.DataAccess.Abstract;
+using KT.HotelProject.DataAccess.Concrete;
+using KT.HotelProject.DataAccess.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +30,30 @@ namespace KT.HotelProject.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<HotelContext>();
+
+            services.AddScoped<IStaffService, StaffManager>();
+            services.AddScoped<IStaffRepository, EfStaffRepository>();
+
+            services.AddScoped<IServiceService, ServiceManager>();
+            services.AddScoped<IServiceRepository, EfServiceRepository>();
+
+            services.AddScoped<IRoomService, RoomManager>();
+            services.AddScoped<IRoomRepository, EfRoomRepository>();
+
+            services.AddScoped<ITestimonialService, TestimonialManager>();
+            services.AddScoped<ITestimonialRepository, EfTestimonialRepository>();
+
+            services.AddScoped<ISubscribeService, SubscribeManager>();
+            services.AddScoped<ISubscribeRepository, EfSubscribeRepository>();
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("HotelApiCors", opts =>
+                {
+                    opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -44,7 +73,7 @@ namespace KT.HotelProject.WebAPI
             }
 
             app.UseRouting();
-
+            app.UseCors("HotelApiCors");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
