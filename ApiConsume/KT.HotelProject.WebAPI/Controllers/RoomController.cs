@@ -1,4 +1,6 @@
-﻿using KT.HotelProject.Business.Abstract;
+﻿using AutoMapper;
+using KT.HotelProject.Business.Abstract;
+using KT.HotelProject.DTO.Dtos.RoomDto;
 using KT.HotelProject.Entity.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,12 @@ namespace KT.HotelProject.WebAPI.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
+        private readonly IMapper _mapper;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, IMapper mapper)
         {
             _roomService = roomService;
+            _mapper = mapper;
         }
 
 
@@ -25,8 +29,13 @@ namespace KT.HotelProject.WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddRoom(Room room)
+        public IActionResult AddRoom(RoomAddDto roomAddDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var room = _mapper.Map<Room>(roomAddDto);
             _roomService.TInsert(room);
             return Ok();
         }
@@ -40,8 +49,13 @@ namespace KT.HotelProject.WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateRoom(Room room)
+        public IActionResult UpdateRoom(RoomUpdateDto roomUpdateDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var room = _mapper.Map<Room>(roomUpdateDto);
             _roomService.TUpdate(room);
             return Ok();
         }

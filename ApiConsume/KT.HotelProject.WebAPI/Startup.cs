@@ -47,6 +47,9 @@ namespace KT.HotelProject.WebAPI
             services.AddScoped<ISubscribeService, SubscribeManager>();
             services.AddScoped<ISubscribeRepository, EfSubscribeRepository>();
 
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("HotelApiCors", opts =>
