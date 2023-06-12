@@ -47,6 +47,11 @@ namespace KT.HotelProject.WebAPI
             services.AddScoped<ISubscribeService, SubscribeManager>();
             services.AddScoped<ISubscribeRepository, EfSubscribeRepository>();
 
+            services.AddScoped<IAboutService, AboutManager>();
+            services.AddScoped<IAboutRepository, EfAboutRepository>();
+
+            services.AddScoped<IBookingService, BookingManager>();
+            services.AddScoped<IBookingRepository, EfBookingRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

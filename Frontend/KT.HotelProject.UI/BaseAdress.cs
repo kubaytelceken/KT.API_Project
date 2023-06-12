@@ -2,6 +2,6 @@
 {
     public static class BaseAdress
     {
-        public static string URI { get; set; } = "http://localhost:5000/";
+        public static string URI { get; set; } = "http://localhost:23550/";
     }
 }
